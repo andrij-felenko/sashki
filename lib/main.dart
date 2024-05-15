@@ -1,31 +1,48 @@
 import 'package:flutter/material.dart';
 
+import 'package:shashki/ui/game_field.dart';
+
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Button Color Toggle',
-      home: HomePage(),
+      title: 'Shashki',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 58, 85, 183)),
+        useMaterial3: true,
+      ),
+      home: const MyHomePage(title: 'Shashki'),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  final String title;
+
   @override
-  _HomePageState createState() => _HomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  Color _buttonColor = Colors.blue;  // Initial color is blue
+class _MyHomePageState extends State<MyHomePage> {
+  int counter = 0;
+  var showText = false;
 
-  void _toggleButtonColor() {
+  void showTextHandler() {
+    showText = true;
+  }
+
+  void incrementCounter() {
     setState(() {
-      // Toggle the color between blue and red
-      _buttonColor = _buttonColor == Colors.blue ? Colors.red : Colors.blue;
+      counter++;
     });
   }
 
@@ -33,77 +50,16 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Toggle Button Color'),
-        backgroundColor: Colors.black,
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
       ),
-      body: Center(
-        child: ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(_buttonColor),  // Correct usage of color setting
-          ),
-          onPressed: _toggleButtonColor,  // Change color on button press
-          child: Text('Press Me'),
+      body: const Center(
+        child: SizedBox(
+          width: 400, 
+          height: 400,
+          child: GameField(),
         ),
-      ),
+      ), 
     );
   }
 }
-
-
-
-
-
-// import 'package:flutter/material.dart';
-// import 'ui/game_field.dart';
-//
-// void main() {
-//   runApp(const MyApp());
-// }
-//
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-//
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Shashki',
-//       theme: ThemeData(
-//         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-//         useMaterial3: true,
-//       ),
-//       home: const MyHomePage(title: 'Flutter Demo Home Page'),
-//     );
-//   }
-// }
-//
-// class MyHomePage extends StatefulWidget {
-//   const MyHomePage({super.key, required this.title});
-//
-//   final String title;
-//
-//   @override
-//   State<MyHomePage> createState() => _MyHomePageState();
-// }
-//
-// class _MyHomePageState extends State<MyHomePage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-//         title: Text(widget.title),
-//       ),
-//       body: const Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             Expanded(
-//               child: GameField(),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
