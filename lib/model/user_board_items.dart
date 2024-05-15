@@ -4,7 +4,7 @@ import 'position.dart';
 class UserBoardItems {
   UserBoardItems();
 
-  List <Fishka> _fishks;
+  List <Fishka> _fishks = [];
 
   void turn(Position from, Position to) {
     //

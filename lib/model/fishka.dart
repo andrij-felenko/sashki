@@ -1,4 +1,4 @@
-import 'position.dart'
+import 'position.dart';
 
 enum Status {
   Removed,
@@ -13,7 +13,7 @@ enum Side {
 
 class Fishka {
   Status _status = Status.Simple;
-  Position _coord;
+  Position _coord = Position(-1, -1);
   Side _side;
 
   Fishka(this._side);
