@@ -1,6 +1,6 @@
 import 'user_board_items.dart';
 import 'fishka.dart';
-import 'position.dart'
+import 'position.dart';
 
 class Field {
   UserBoardItems _white_user;
