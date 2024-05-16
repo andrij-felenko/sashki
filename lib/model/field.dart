@@ -14,8 +14,8 @@ class Field {
   }
 
   Field() : _current_turn = Side.White,
-            _white_user = UserBoardItems(),
-            _black_user = UserBoardItems();
+            _white_user = UserBoardItems(Side.White),
+            _black_user = UserBoardItems(Side.Black);
 
   Side get current_turn => _current_turn;
 

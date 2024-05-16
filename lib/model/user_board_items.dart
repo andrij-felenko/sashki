@@ -2,18 +2,36 @@ import 'fishka.dart';
 import 'position.dart';
 
 class UserBoardItems {
-  UserBoardItems();
+  final Side _side;
+  final List <Fishka> _fishks = [];
 
-  List <Fishka> _fishks = [];
+  Side get side => _side;
+
+  UserBoardItems(this._side) {
+    reset();
+  }
 
   void turn(Position from, Position to) {
     //
   }
 
+  void reset() {
+    _fishks.clear();
+
+    // create fishki and place each in destination position
+    for (int i = 0; i < 12; i++) {
+      Position pos = Position((i % 4) * 2, i ~/ 4);
+      if ((i ~/ 4) % 2 == 0) pos.x++;
+      if (_side == Side.White) { pos.x = 8 - pos.x; pos.y = 8 - pos.y; }
+      _fishks.add(Fishka(_side, pos));
+    }
+  }
+
   bool findFishka(Position coord) {
     for (Fishka it in _fishks) {
-      if (it.coord == coord)
+      if (it.coord == coord) {
         return true;
+      }
     }
     return false;
   }

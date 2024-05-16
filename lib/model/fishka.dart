@@ -16,13 +16,11 @@ class Fishka {
   Position _coord = Position(-1, -1);
   Side _side;
 
-  Fishka(this._side);
+  Fishka(this._side, this._coord);
 
   Position get coord => _coord;
-  set coord(Position coord) => _coord = coord;
-
   Status get status => _status;
-  set status(Status s) => _status = s;
+  Side get side => _side;
 
   void remove()  => _status = Status.Removed;
   void upgrade() => _status = Status.Damka;
