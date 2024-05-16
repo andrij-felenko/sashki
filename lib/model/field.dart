@@ -26,5 +26,13 @@ class Field {
 
   void click(Position coord) {
     // check if already use this line, if click on empty, make turn
+
+    /// 1. check what field are relate to { white, black, empty }
+
+
+    /// 2. check is we can move here, include is we beat enemy
+    /// 3. make turn
+
+
   }
 }
