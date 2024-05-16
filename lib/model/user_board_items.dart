@@ -7,6 +7,9 @@ class UserBoardItems {
 
   Side get side => _side;
 
+  Fishka fishka(int i) => _fishks[i];
+  List <Fishka> get fishks => _fishks;
+
   UserBoardItems(this._side) {
     reset();
   }
