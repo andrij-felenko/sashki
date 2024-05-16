@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'user_board_items.dart';
 import 'fishka.dart';
 import 'position.dart';
 
-class Field {
+class Field extends ChangeNotifier {
   UserBoardItems _white_user;
   UserBoardItems _black_user;
   Side _current_turn;
@@ -13,7 +14,7 @@ class Field {
   UserBoardItems get white => _white_user;
   UserBoardItems get black => _black_user;
 
-  Position get current_field => current_select_field;  
+  Position get current_field => current_select_field;
 
   bool is_end() {
     // check is game finished just now
@@ -31,18 +32,28 @@ class Field {
                                 : _black_user.turn(from, to);
   }
 
+  void kill(Position coord) {
+    //
+  }
+
   void click(Position coord) {
-    print('click: $coord');
-    current_select_field.x = coord.x;
-    current_select_field.y = coord.y;
-    // check if already use this line, if click on empty, make turn
-
     /// 1. check what field are relate to { white, black, empty }
+    if (current_select_field == coord) {
+      current_select_field = Position(-1, -1);
+      notifyListeners();
+      return;
+    }
 
+    if (user.findFishka(coord)) {
+      current_select_field = coord;
+      notifyListeners();
+      return;
+    }
 
     /// 2. check is we can move here, include is we beat enemy
     /// 3. make turn
-
-
+    /// 4. if we kill, than we continue move, else switch player
   }
+
+  UserBoardItems get user => _current_turn == Side.Black ? _black_user : _white_user;
 }

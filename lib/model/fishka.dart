@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+
 import 'position.dart';
 
 enum Status {
@@ -11,12 +14,14 @@ enum Side {
   White
 }
 
-class Fishka {
+class Fishka extends ChangeNotifier {
   Status _status = Status.Simple;
   Position _coord = Position(-1, -1);
   Side _side;
 
-  Fishka(this._side, this._coord);
+  Fishka(this._side, this._coord) {
+    _coord.addListener(notifyListeners);
+  }
 
   Position get coord => _coord;
   Status get status => _status;
@@ -34,5 +39,6 @@ class Fishka {
     }
 
     _coord = coord;
+    notifyListeners();
   }
 }
