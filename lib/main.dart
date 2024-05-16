@@ -33,17 +33,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int counter = 0;
-  var showText = false;
+  void resetGame() {
 
-  void showTextHandler() {
-    showText = true;
-  }
-
-  void incrementCounter() {
-    setState(() {
-      counter++;
-    });
   }
 
   @override
@@ -51,15 +42,34 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: const Center(
-        child: SizedBox(
-          width: 400, 
-          height: 400,
-          child: GameField(),
+        title: Text(
+          widget.title,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ), 
+        centerTitle: true,
+      ),
+      body: Center (
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(10, 90, 10, 10),
+          child: Column(
+            children: <Widget>[
+              const Expanded(child: GameField()),
+              ElevatedButton(
+                onPressed: () {}, 
+                child: const Text(
+                  'Reset',
+                  style: TextStyle(
+                    fontSize: 22,
+                  ),
+                ),
+              )              
+            ],
+          ),
+        ),
+      )
     );
   }
 }

@@ -25,7 +25,7 @@ class UserBoardItems {
     for (int i = 0; i < 12; i++) {
       Position pos = Position((i % 4) * 2, i ~/ 4);
       if ((i ~/ 4) % 2 == 0) pos.x++;
-      if (_side == Side.White) { pos.x = 8 - pos.x; pos.y = 8 - pos.y; }
+      if (_side == Side.White) { pos.x = 7 - pos.x; pos.y = 7 - pos.y; }
       _fishks.add(Fishka(_side, pos));
     }
   }

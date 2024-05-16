@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'user_board_items.dart';
 import 'fishka.dart';
 import 'position.dart';
@@ -6,7 +8,12 @@ class Field {
   UserBoardItems _white_user;
   UserBoardItems _black_user;
   Side _current_turn;
-  Position _current_selectfield = Position( -1, -1);
+  Position current_select_field = Position( -1, -1);
+
+  UserBoardItems get white => _white_user;
+  UserBoardItems get black => _black_user;
+
+  Position get current_field => current_select_field;  
 
   bool is_end() {
     // check is game finished just now
@@ -25,6 +32,9 @@ class Field {
   }
 
   void click(Position coord) {
+    print('click: $coord');
+    current_select_field.x = coord.x;
+    current_select_field.y = coord.y;
     // check if already use this line, if click on empty, make turn
   }
 }

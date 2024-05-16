@@ -13,7 +13,9 @@ class _FishkaItem extends State<FishkaItem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      // child: Container(
+      //   child: Text('fishka'),
+      // ),
     );
   }
 }
