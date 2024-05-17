@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 
 class User {
-  String _name = "";
-  int _wins = 0;
-  int _loses = 0;
+  final String _name;
+  final int _wins = 0;
+  final int _loses = 0;
 
   User(this._name) {
     //
@@ -13,7 +13,5 @@ class User {
   int    get wins  => _wins;
   int    get loses => _loses;
 
-  int get count => wins - loses;
-
-
+  int get rank => wins - loses;
 }

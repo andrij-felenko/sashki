@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import '../model/position.dart';
-import '../model/field.dart';
+import '../model/piece.dart';
 
 class FieldItem extends StatefulWidget {
-  const FieldItem({
-    super.key,
-    required this.index,
-    required this.x,
-    required this.y,
-    required this.onTap,
-  });
+  const FieldItem(this.index, this.x, this.y, { required this.onTap, super.key }
+  );
 
   final int index;
   final int x;
