@@ -3,13 +3,14 @@ import 'package:provider/provider.dart';
 
 import 'package:shashki/ui/game_field.dart';
 import 'model/board.dart';
-import 'model/piece.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => Board(),
-      child: MyApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value (value: Board()),
+      ],
+      child: const MyApp(),
     ),
   );
 }
