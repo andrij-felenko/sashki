@@ -64,13 +64,12 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: LayoutBuilder (
         builder: (context, constrains) {
-          print('aaaa $constrains');
           double width = constrains.maxWidth;
           double height = constrains.maxHeight;
-          print('assssss $width $height');
           double boardSize = min(width, height);
           double infoSize = max(width, height) - min(width, height);
           Axis axis = width < height ? Axis.vertical : Axis.horizontal;
+
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Board().widgetSize = boardSize / 8;
           });
