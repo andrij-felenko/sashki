@@ -9,8 +9,11 @@ class PieceWidget extends StatelessWidget {
   final Color _defaultColor;
   final Color _selectedColor;
 
-  PieceWidget(this._pieces, this._defaultColor, this._selectedColor, {Key? key})
-      : super(key: key ?? UniqueKey()){
+  PieceWidget(
+      this._pieces,
+      this._defaultColor, this._selectedColor,
+      {Key? key})
+  : super(key: key ?? UniqueKey()) {
     //
   }
 
@@ -25,16 +28,18 @@ class PieceWidget extends StatelessWidget {
   );
 
   Widget _buildPieceItem(BuildContext context, Piece i) {
+    double emptyShift = 0.1;
+
     return Positioned(
-      left: 4 + i.pos.x * 49,
-      top:  4 + i.pos.y * 49,
+      left: (i.pos.x + emptyShift) * Board().widgetSize,
+      top:  (i.pos.y + emptyShift) * Board().widgetSize,
       child: GestureDetector (
         onTap: () { Board().click(i.pos); },
         child: Container (
-          width: 40,
-          height: 40,
+          width: Board().widgetSize * (1 - 2 * emptyShift),
+          height: Board().widgetSize * (1 - 2 * emptyShift),
           decoration: BoxDecoration (
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(Board().widgetSize / 2),
             /// better use this, but i`m add singleton, so...
             /// color: Provider.of <Board> (context, listen: false).selectedField == i.pos
             color: Board().selectedField == i.pos ? _selectedColor : _defaultColor,

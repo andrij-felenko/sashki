@@ -12,6 +12,7 @@ class Board extends ChangeNotifier {
   final Player _black;
   Side _turn;
   Position _selectedField;
+  double _widgetSize = 50;
 
   static final Board _instance = Board._internal();
   Board._internal()
@@ -29,6 +30,14 @@ class Board extends ChangeNotifier {
   Side get turn => _turn;
   Position get selectedField => _selectedField;
   set selectField(Position pos) { _selectedField = pos; notifyListeners(); }
+  double get widgetSize => _widgetSize;
+  set widgetSize(double size) {
+    if (_widgetSize == size) {
+      return;
+    }
+    _widgetSize = size;
+    notifyListeners();
+  }
 
 
   void _selectFieldPos(int x, int y) { selectField = (Position(x, y)); }

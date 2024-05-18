@@ -41,7 +41,9 @@ class _FieldItem extends State<FieldItem> {
         height: 50,
         margin: const EdgeInsets.all(1),
         decoration: BoxDecoration(
-          color: (widget.index ~/ 8)%2 == widget.index%2 ? Colors.grey[200] : Colors.black,
+          color: (widget.index ~/ 8) % 2 == widget.index%2
+              ? Colors.grey[200]
+              : Colors.black,
         ),
         // child: Center(
         //   child: widget.x == pos.x && widget.y == pos.y ? TextButton(
