@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:shashki/model/enums.dart';
+import 'package:shashki/model/user.dart';
 
 import 'player.dart';
 import 'piece.dart';
@@ -19,7 +20,10 @@ class Board extends ChangeNotifier {
       : _turn = Side.white,
         _white = Player(Side.white),
         _black = Player(Side.black),
-        _selectedField = Position( -1, -1);
+        _selectedField = Position( -1, -1) {
+    _white.user = User('White user');
+    _black.user = User('Black User');
+  }
   factory Board() => _instance;
 
   Player get white => _white;

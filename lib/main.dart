@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:shashki/ui/game_field.dart';
+import 'package:shashki/ui/model_widgets/player_info.dart';
 import 'model/board.dart';
 import 'dart:math';
 
@@ -50,17 +52,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.blue, // Колір рядка стану
+      statusBarIconBrightness: Brightness.light, // Колір іконок у рядку стану
+    ));
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(
-          widget.title,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+      appBar: PreferredSize(
+        preferredSize:Size.fromHeight(MediaQuery.of(context).padding.top * 0),
+        child: AppBar(
+          backgroundColor: Colors.deepPurple, // Колір AppBar
+          elevation: 0, // Без тіні
         ),
-        centerTitle: true,
       ),
       body: LayoutBuilder (
         builder: (context, constrains) {
@@ -74,48 +77,42 @@ class _MyHomePageState extends State<MyHomePage> {
             Board().widgetSize = boardSize / 8;
           });
 
+          var board = Flexible(
+            flex: 0,
+            child: SizedBox(
+              width: boardSize,
+              height: boardSize,
+              child: const GameField(),
+            ),
+          );
+
+          var whiteP = Expanded(
+            flex: 1,
+            child: PlayerInfo ( Colors.black12, Colors.black, Board().white ),
+          );
+
+          var blackP = Expanded(
+            flex: 1,
+            child: PlayerInfo ( Colors.black54, Colors.white, Board().black ),
+          );
+
           return Flex (
             direction: axis,
-            children: [
-              SizedBox(
-                width: boardSize,
-                height: boardSize,
-                child: const GameField(),
-              ),
-              Container (
-                color: Colors.red,
-                width: axis == Axis.vertical ? boardSize : infoSize,
-                height: axis == Axis.vertical ? infoSize : boardSize,
-              )
-            ],
+            children: [ whiteP, board, blackP ],
+            // its another possible placement, maybe its better
+            // children: axis == Axis.horizontal ? [whiteP, board, blackP]
+            //   : [
+            //     board,
+            //     Expanded (
+            //       child: Flex (
+            //         direction: Axis.horizontal,
+            //         children: [ whiteP, blackP ],
+            //       ),
+            //     ),
+            // ],
           );
         },
       ),
-      /* const Flex (
-        direction: Axis.vertical,
-        children: [
-          SizedBox(width: 100, height: 100, child: GameField()),
-        ],
-      )
-      Center (
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(10, 90, 10, 10),
-          child: Column(
-            children: <Widget>[
-              const Expanded(child: GameField()),
-              ElevatedButton(
-                onPressed: () {}, 
-                child: const Text(
-                  'Reset',
-                  style: TextStyle(
-                    fontSize: 22,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      )*/
     );
   }
 }

@@ -22,8 +22,8 @@ class _GameField extends State<GameField> {
           Consumer <Board> (
             builder: (context, board, child) => Stack(
               children: [
-                PieceWidget(board.white.pieces, Colors.blue[500]!, Colors.blue[50]!),
-                PieceWidget(board.black.pieces, Colors.yellow[500]!, Colors.yellow[50]!),
+                PieceWidget(board.white.pieces, Colors.white, Colors.cyanAccent),
+                PieceWidget(board.black.pieces, Colors.black, Colors.indigoAccent),
               ],
             ),
           ),
