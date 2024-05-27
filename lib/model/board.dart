@@ -23,13 +23,15 @@ class Board extends ChangeNotifier {
         _selectedField = Position( -1, -1) {
     _white.user = User('White user');
     _black.user = User('Black User');
+    _white.addListener(notifyListeners);
+    _black.addListener(notifyListeners);
   }
   factory Board() => _instance;
 
   Player get white => _white;
   Player get black => _black;
   Player get user    => _turn == Side.black ? _black : _white;
-  Player get oponent => _turn == Side.black ? _white : _black;
+  Player get opponent => _turn == Side.black ? _white : _black;
 
   Side get turn => _turn;
   Position get selectedField => _selectedField;
@@ -39,6 +41,7 @@ class Board extends ChangeNotifier {
     if (_widgetSize == size) {
       return;
     }
+
     _widgetSize = size;
     notifyListeners();
   }
@@ -63,8 +66,7 @@ class Board extends ChangeNotifier {
   }
 
   void click(Position pos) {
-    /// 1. check what field are relate to { white, black, empty }
-    if (selectedField == pos) {
+    if (selectedField == pos || (pos.x % 2 == pos.y % 2)) {
       _selectFieldPos(-1, -1);
       return;
     }
@@ -74,14 +76,28 @@ class Board extends ChangeNotifier {
       return;
     }
 
+    if (opponent.findPiece(pos)) {
+      return;
+    }
+
+    Piece? piece = user.pieceByPos(selectedField);
+
+    if (piece == null) return;
+
+    if (piece.status == Status.queen) {
+
+    } else if (piece.status == Status.pawn) {
+      print(pos);
+      piece.move(pos);
+    }
+
     /// 2. check is we can move here, include is we beat enemy
     /// 3. make turn
 
     /// 4. if we kill, than we continue move, else switch player
-    if (false /* is we kill check */) {
+    if (true /* is we kill check */) {
       //
-    }
-    else {
+    } else {
       switchPlayer();
     }
   }

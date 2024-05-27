@@ -18,19 +18,20 @@ class Piece extends ChangeNotifier {
   Side     get side => _side;
   Status   get status => _status;
 
-
   void remove()  => _status = Status.beated;
   void upgrade() => _status = Status.queen;
 
   void move (Position coord) {
     if (_status == Status.pawn) {
-      if ((_side == Side.black && coord.y == 7) ||
-          (_side == Side.white && coord.y == 0)) {
+      if (
+        (_side == Side.black && coord.y == 7) ||
+        (_side == Side.white && coord.y == 0)
+      ) {
         upgrade();
       }
     }
 
-    _pos = pos;
+    coord = pos;
     notifyListeners();
   }
 }

@@ -53,8 +53,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.blue, // Колір рядка стану
-      statusBarIconBrightness: Brightness.light, // Колір іконок у рядку стану
+      statusBarColor: Colors.blue, 
+      statusBarIconBrightness: Brightness.light, 
     ));
 
     return Scaffold(

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:shashki/model/board.dart';
 import 'package:shashki/model/piece.dart';
+import 'package:shashki/model/position.dart';
 
 class PieceWidget extends StatelessWidget {
   final List <Piece> _pieces;
@@ -22,17 +23,23 @@ class PieceWidget extends StatelessWidget {
     children: _pieces.map((item) => ChangeNotifierProvider.value (
       value: item,
       child: Consumer <Piece> (
-        builder: (context, i, child) => _buildPieceItem(context, i)
+        builder: (context, item, child) {
+          print('Rebuilding piece: ${item.pos}');
+
+          return _buildPieceItem(context, item);
+        }
       ),
     )).toList(),
   );
 
   Widget _buildPieceItem(BuildContext context, Piece i) {
     double emptyShift = 0.1;
+    Position newPos = i.pos;
+    print("ooop $newPos");
 
     return Positioned(
-      left: (i.pos.x + emptyShift) * Board().widgetSize,
-      top:  (i.pos.y + emptyShift) * Board().widgetSize,
+      left: (newPos.x + emptyShift) * Board().widgetSize,
+      top:  (newPos.y + emptyShift) * Board().widgetSize,
       child: GestureDetector (
         onTap: () { Board().click(i.pos); },
         child: Container (
@@ -40,10 +47,8 @@ class PieceWidget extends StatelessWidget {
           height: Board().widgetSize * (1 - 2 * emptyShift),
           decoration: BoxDecoration (
             borderRadius: BorderRadius.circular(Board().widgetSize / 2),
-            /// better use this, but i`m add singleton, so...
-            /// color: Provider.of <Board> (context, listen: false).selectedField == i.pos
             color: Board().selectedField == i.pos ? _selectedColor : _defaultColor,
-            border: Border.all(color: Colors.white),
+            border: Border.all(color: Colors.white), 
           ),
         ),
       )

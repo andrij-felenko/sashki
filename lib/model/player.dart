@@ -19,8 +19,17 @@ class Player extends ChangeNotifier {
 
   set user(User user) => _user;
 
+  Piece piece(int i) => _pieces[i];
 
-  Piece fishka(int i) => _pieces[i];
+  Piece? pieceByPos(Position pos) {
+    for (Piece it in _pieces) {
+      if (it.pos == pos) {
+        return it;
+      }
+    }
+
+    return null;
+  }
 
   void turn(Position from, Position to) {
     //
@@ -33,8 +42,12 @@ class Player extends ChangeNotifier {
     for (int i = 0; i < 12; i++) {
       Position pos = Position((i % 4) * 2, i ~/ 4);
       if ((i ~/ 4) % 2 == 0) pos.x++;
+
       if (_side == Side.white) { pos.x = 7 - pos.x; pos.y = 7 - pos.y; }
-      _pieces.add(Piece(_side, pos));
+      
+      Piece newPiece = Piece(_side, pos);
+      _pieces.add(newPiece);
+      newPiece.addListener(notifyListeners);
     }
   }
 
@@ -44,6 +57,7 @@ class Player extends ChangeNotifier {
         return true;
       }
     }
+
     return false;
   }
 
