@@ -31,7 +31,7 @@ class Piece extends ChangeNotifier {
       }
     }
 
-    coord = pos;
+    this.coord = coord;
     notifyListeners();
   }
 }
