@@ -1,33 +1,44 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../model/player.dart';
+import 'package:shashki/model.dart';
 
 class PlayerInfo extends StatelessWidget {
-  Color _back;
-  Color _text;
-  Player _player;
+  final Color _back;
+  final Color _text;
+  final Player _player;
 
-  PlayerInfo(this._back, this._text, this._player, {super.key});
+  const PlayerInfo(this._back, this._text, this._player, {super.key});
 
+  @override
   Widget build(BuildContext context) => Container (
     color: _back,
-    child: Align (
+    child: ChangeNotifierProvider.value (
+      value: _player,
+      child: Consumer <Player>(
+        builder: (context, item, child) => _infoAlign(context, _player),
+      ),
+    ),
+  );
+
+  Widget _infoAlign(BuildContext context, Player i) {
+    return Align(
       child: Flex (
         direction: Axis.vertical,
         children: [
           _textItem('Player name: ${_player.user.name}'),
           _textItem('rank: ${_player.user.rank} (${_player.user.wins}-${_player.user.loses})'),
           const Divider( thickness: 1, color: Colors.black, indent: 12, endIndent: 12 ),
-          _textItem('pawn - 12 - 10 - dead'),
-          _textItem('queen - 0'),
+          _textItem('pawn - ${_player.piecesCount(Status.pawn)} - ${_player.piecesCount(Status.beaten)} - dead'),
+          _textItem('queen - ${_player.piecesCount(Status.queen)}'),
           const Divider( thickness: 1, color: Colors.black, indent: 12, endIndent: 12 ),
           _textItem('turn time: 0:00'),
           _textItem('total time: 12:34'),
         ],
       ),
-    ),
-  );
+    );
+  }
 
   Widget _textItem(String text) {
     return Expanded(

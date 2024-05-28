@@ -17,9 +17,10 @@ class Piece extends ChangeNotifier {
   Position get pos => _pos;
   Side     get side => _side;
   Status   get status => _status;
+  set status(Status s) { _status = s; notifyListeners(); }
 
-  void remove()  => _status = Status.beated;
-  void upgrade() => _status = Status.queen;
+  void remove()  => status = Status.beaten;
+  void upgrade() => status = Status.queen;
 
   void move (Position coord) {
     if (_status == Status.pawn) {

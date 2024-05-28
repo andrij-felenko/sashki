@@ -87,18 +87,49 @@ class Board extends ChangeNotifier {
     if (piece.status == Status.queen) {
 
     } else if (piece.status == Status.pawn) {
-      print(pos);
-      piece.move(pos);
+      int shift = _sizeOfPieceShiftMove(piece.pos, pos, turn);
+      // move
+      if (shift == 1){ 
+        piece.move(pos);
+        switchPlayer(); 
+      }
+      else if (shift == 2) { // try to beat
+        Piece? maybeBeat = opponent.findOneBetween(Player.positionBetween(piece.pos, pos));
+        if (maybeBeat == null){ return; }
+        maybeBeat.remove();
+        piece.move(pos);
+        switchPlayer();
+      }
     }
+
+    // recount
+    // user.notifyListeners();
 
     /// 2. check is we can move here, include is we beat enemy
     /// 3. make turn
 
     /// 4. if we kill, than we continue move, else switch player
-    if (true /* is we kill check */) {
-      //
-    } else {
-      switchPlayer();
+    // if (true /* is we kill check */) {
+    //   //
+    // } else {
+    //   switchPlayer();
+    // }
+  }
+
+  int _sizeOfPieceShiftMove(Position from, Position to, Side side) {
+    Position diff = Position(to.x - from.x, to.y - from.y);
+    print('diff $diff');
+    if (diff.x == 0 || diff.y == 0) { return 0; }
+
+    if (diff.x.abs() != diff.y.abs()) { return 0; } 
+    int shift = diff.x.abs();
+
+    if (shift == 1) {
+      if (diff.y > 0 && side == Side.white || diff.y < 0 && side == Side.black) { 
+        return 0; 
+      }
     }
+
+    return shift;
   }
 }

@@ -1,5 +1,5 @@
 enum Status {
-  beated,
+  beaten,
   pawn,
   queen
 }

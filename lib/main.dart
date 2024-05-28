@@ -98,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
           return Flex (
             direction: axis,
-            children: [ whiteP, board, blackP ],
+            children: [ blackP, board, whiteP ],
             // its another possible placement, maybe its better
             // children: axis == Axis.horizontal ? [whiteP, board, blackP]
             //   : [
