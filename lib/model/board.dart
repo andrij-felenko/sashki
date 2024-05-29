@@ -82,6 +82,21 @@ class Board extends ChangeNotifier {
       return;
     }
 
+    _makeTurn(pos);
+  }
+
+  // io
+  int writeToByteData(ByteData data, int offset) {
+    int offset_ = 0;
+    offset_ += _black.writeToByteData(data, offset + offset_);
+    offset_ += _white.writeToByteData(data, offset + offset_);
+    data.setInt32(offset + offset_, _turn.index, Endian.little);
+    offset_ += 4;
+    offset_ += _selectedField.writeToByteData(data, offset + offset_);
+    return offset_;
+  }
+
+  void _makeTurn(Position pos) {
     Piece? piece = user.pieceByPos(selectedField);
 
     if (piece == null) return;
@@ -101,10 +116,24 @@ class Board extends ChangeNotifier {
         (piece.isQueen && userLine.isEmpty) || (piece.isPawn && shift == 2)) {
       enemyLine[0].remove();
       piece.move(pos);
+      selectField = pos;
       if (!_isWeCanBeat(piece)) {
         switchPlayer();
       }
     }
+  }
+
+  void _dataChanged() async {
+    if (!Platform.isAndroid) { return; }
+    // save io to file
+    ByteData data = ByteData(1600);
+    int offset = writeToByteData(data, 0);
+
+    Directory directory = await getApplicationCacheDirectory();
+    String? path = directory.path;
+
+    File file = File('$path/current_board.chg');
+    await file.writeAsBytes(data.buffer.asUint32List().sublist(0, offset));
   }
 
   bool _isWeCanBeat(Piece piece) {
@@ -117,9 +146,9 @@ class Board extends ChangeNotifier {
     int it = 1;
     // print('\n start check from position: ${piece.pos}');
     while ((piece.pos + star[0] * it).isInRange(1, 6) ||
-           (piece.pos + star[1] * it).isInRange(1, 6) ||
-           (piece.pos + star[2] * it).isInRange(1, 6) ||
-           (piece.pos + star[3] * it).isInRange(1, 6)) {
+        (piece.pos + star[1] * it).isInRange(1, 6) ||
+        (piece.pos + star[2] * it).isInRange(1, 6) ||
+        (piece.pos + star[3] * it).isInRange(1, 6)) {
       for (int i = 0; i < 4; i++) {
         // print('i $i');
         if (!(piece.pos + star[i] * it).isInRange(1, 6)) {
@@ -151,40 +180,16 @@ class Board extends ChangeNotifier {
     Position diff = from - to;
     if (diff.x == 0 || diff.y == 0) { return 0; }
 
-    if (diff.x.abs() != diff.y.abs()) { return 0; } 
+    if (diff.x.abs() != diff.y.abs()) { return 0; }
     int shift = diff.x.abs();
 
     if (shift == 1) {
       if (diff.y < 0 && side == Side.white || diff.y > 0 && side == Side.black) {
-        return 0; 
+        return 0;
       }
     }
 
     return shift;
-  }
-
-  void _dataChanged() async {
-    if (!Platform.isAndroid) { return; }
-    // save io to file
-    ByteData data = ByteData(1600);
-    int offset = writeToByteData(data, 0);
-
-    Directory directory = await getApplicationCacheDirectory();
-    String? path = directory.path;
-
-    File file = File('$path/current_board.chg');
-    await file.writeAsBytes(data.buffer.asUint32List().sublist(0, offset));
-  }
-
-  // io
-  int writeToByteData(ByteData data, int offset) {
-    int offset_ = 0;
-    offset_ += _black.writeToByteData(data, offset + offset_);
-    offset_ += _white.writeToByteData(data, offset + offset_);
-    data.setInt32(offset + offset_, _turn.index, Endian.little);
-    offset_ += 4;
-    offset_ += _selectedField.writeToByteData(data, offset + offset_);
-    return offset_;
   }
 
   bool _checkFreeField(Position pos) {

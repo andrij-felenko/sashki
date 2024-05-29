@@ -25,12 +25,7 @@ class Piece extends ChangeNotifier {
   bool get isQueen => _status == Status.queen;
   bool get isBeaten => _status == Status.beaten;
 
-  void remove() {
-    print(status);
-    status = Status.beaten;
-    print(status);
-    print(pos);
-  }
+  void remove()  => status = Status.beaten;
   void upgrade() => status = Status.queen;
 
   void move (Position coord) {
