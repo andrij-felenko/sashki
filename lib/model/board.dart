@@ -143,35 +143,34 @@ class Board extends ChangeNotifier {
       Position(-1,  1),
       Position(-1, -1),
     ];
+
     int it = 1;
-    // print('\n start check from position: ${piece.pos}');
     while ((piece.pos + star[0] * it).isInRange(1, 6) ||
         (piece.pos + star[1] * it).isInRange(1, 6) ||
         (piece.pos + star[2] * it).isInRange(1, 6) ||
         (piece.pos + star[3] * it).isInRange(1, 6)) {
       for (int i = 0; i < 4; i++) {
-        // print('i $i');
         if (!(piece.pos + star[i] * it).isInRange(1, 6)) {
-          // print('skip ${piece.pos + star[i] * it}');
           continue;
         }
 
         if (user.pieceByPos(piece.pos + star[i] * it) != null) {
           star[i] = Position(7, 7);
-          // print('break here ${star[i]}');
           continue;
         }
 
         if (opponent.pieceByPos(piece.pos + star[i] * it) != null) {
-          // print('find ${piece.pos + star[i] * it}');
           if (_checkFreeField(piece.pos + star[i] * (it + 1))) {
             // we can beat
-            // print('beat ${piece.pos + star[i] * (it + 1)}');
             return true;
           }
         }
       }
-      if (piece.isQueen) { it++; } else { break; }
+      if (piece.isQueen) {
+        it++;
+      } else {
+        break;
+      }
     }
     return false;
   }
