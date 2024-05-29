@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 
 import 'piece.dart';
@@ -35,7 +37,7 @@ class Player extends ChangeNotifier {
 
   Piece? pieceByPos(Position pos) {
     for (Piece it in _pieces) {
-      if (it.status != Status.beaten && it.pos == pos) {
+      if (!it.isBeaten && it.pos == pos) {
         return it;
       }
     }
@@ -93,18 +95,26 @@ class Player extends ChangeNotifier {
     return ret;
   }
 
-  Piece? findOneBetween(List <Position> list) {
-    Piece? ret;
+  List <Piece> findPieces(List <Position> list) {
+    List <Piece> ret = [];
     for (Position it in list) {
       Piece? temp = pieceByPos(it);
-      if (temp == null) { continue; }
-      
-      if (ret != null) { return null; }
-      ret = temp;
+      if (temp != null) { ret.add(temp); }
     }
 
     return ret;
   }
 
   void changeUser(User user) { _user = user; notifyListeners(); }
+
+  // io
+  int writeToByteData(ByteData data, int offset) {
+      int offset_ = 0;
+      data.setInt32(offset, side.index, Endian.little);
+      offset_ += 4;
+      for (Piece it in _pieces) {
+        offset_ += it.writeToByteData(data, offset + offset_);
+      }
+      return offset_;
+  }
 }

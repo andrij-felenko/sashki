@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +21,16 @@ class Piece extends ChangeNotifier {
   Status   get status => _status;
   set status(Status s) { _status = s; notifyListeners(); }
 
-  void remove()  => status = Status.beaten;
+  bool get isPawn => _status == Status.pawn;
+  bool get isQueen => _status == Status.queen;
+  bool get isBeaten => _status == Status.beaten;
+
+  void remove() {
+    print(status);
+    status = Status.beaten;
+    print(status);
+    print(pos);
+  }
   void upgrade() => status = Status.queen;
 
   void move (Position coord) {
@@ -34,5 +45,14 @@ class Piece extends ChangeNotifier {
 
     this.coord = coord;
     notifyListeners();
+  }
+
+  // io
+  int writeToByteData(ByteData data, int offset) {
+    int offset_ = 0;
+    data.setInt32(offset, status.index, Endian.little);
+    offset_ += 4;
+    offset_ += pos.writeToByteData(data, offset + offset_);
+    return offset_;
   }
 }
